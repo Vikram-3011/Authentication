@@ -1,0 +1,58 @@
+﻿@page "/signup"
+@inject AuthService Auth
+@inject NavigationManager Nav
+@using MudBlazor
+@rendermode InteractiveServer
+
+<MudPaper Class="auth-card">
+    <MudText Typo="Typo.h5" Class="mb-4">Create account</MudText>
+
+    <MudTextField @bind-Value="email" Label="Email" Variant="Variant.Outlined" Required />
+    <MudTextField @bind-Value="password" Label="Password" Variant="Variant.Outlined" InputType="InputType.Password" Required />
+    <MudTextField @bind-Value="confirm" Label="Confirm Password" Variant="Variant.Outlined" InputType="InputType.Password" Required />
+
+    @if (!string.IsNullOrEmpty(error))
+    {
+        <MudText Color="Color.Error" Typo="Typo.caption">@error</MudText>
+    }
+    <MudButton OnClick="SignupAsync">SIGN UP</MudButton>
+
+    <MudText Class="mt-2"><MudLink Href="/login">Have an account?</MudLink></MudText>
+</MudPaper>
+
+<style>
+    .auth-card {
+        width: 350px;
+        margin: auto;
+        margin-top: 15vh;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+    }
+
+</style>
+@code {
+    private string email = "";
+    private string password = "";
+    private string confirm = "";
+    private string? error;
+
+    private async Task SignupAsync()
+    {
+        error = null;
+
+        if (password != confirm)
+        {
+            error = "Passwords do not match.";
+            return;
+        }
+
+        var (success, err) = await Auth.SignUpAsync(email, password);
+
+        if (!success)
+            error = err;
+        else
+            Nav.NavigateTo("/");
+    }
+
+}

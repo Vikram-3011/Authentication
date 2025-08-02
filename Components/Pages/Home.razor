@@ -1,0 +1,31 @@
+﻿@page "/home"
+@inject NavigationManager Nav
+@using MudBlazor
+
+<PageTitle>Home Page</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Class="mt-12 d-flex flex-column align-center">
+    <MudText Typo="Typo.h4" Align="Align.Center">Welcome to the Home Page</MudText>
+
+    <MudStack Spacing="2" Class="mt-6" Row="true">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" Href="/login">
+            Login
+        </MudButton>
+
+        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" Href="/signup">
+            Sign Up
+        </MudButton>
+    </MudStack>
+</MudContainer>
+
+@code {
+    private void GoToLogin()
+    {
+        Nav.NavigateTo("/login");
+    }
+
+    private void GoToSignup()
+    {
+        Nav.NavigateTo("/signup");
+    }
+}
